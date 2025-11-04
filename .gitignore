@@ -42,3 +42,17 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# VS Code
+.vscode/
+
+# Maven Wrapper (optional, see below)
+.mvn/
+mvnw
+mvnw.cmd
