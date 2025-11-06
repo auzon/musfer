@@ -54,6 +54,7 @@
 
   <modules>
     <module>user-api</module>
+    <module>transfer-api</module>
   </modules>
 
   <build>
