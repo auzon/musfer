@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS musfer_users (
+    id BIGSERIAL PRIMARY KEY,
+    email VARCHAR(320) NOT NULL UNIQUE,
+    username VARCHAR(30) NOT NULL UNIQUE,
+    status VARCHAR(64) NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
