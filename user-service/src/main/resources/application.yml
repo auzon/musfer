@@ -3,9 +3,9 @@ spring:
     name: user-service
 
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:user_service_db}
-    username: ${POSTGRES_USER:user_service}
-    password: ${POSTGRES_PASSWORD:user_service_password}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:user_service_db}
+    username: ${DB_USER:user_service}
+    password: ${DB_PASSWORD:user_service_password}
 
   flyway:
     baseline-on-migrate: true

@@ -8,10 +8,8 @@ import me.oguzhanozer.musfer.userservice.entity.User;
 import me.oguzhanozer.musfer.userservice.mapper.UserMapper;
 import me.oguzhanozer.musfer.userservice.service.UserService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,9 +19,6 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@RequestBody @Valid UserCreateRequest userCreateRequest) {
@@ -35,10 +30,5 @@ public class UserController {
     public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
         User user = userService.getUser(id);
         return ResponseEntity.status(HttpStatus.OK).body(userMapper.toResponse(user));
-    }
-
-    @GetMapping("/current-db")
-    public String currentDatabase() {
-        return jdbcTemplate.queryForObject("SELECT current_database()", String.class);
     }
 }
