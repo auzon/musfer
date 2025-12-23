@@ -8,3 +8,4 @@ Run a basic command to make sure the terminal works:
 ```bash
 pwd
 ls
+```
