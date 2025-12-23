@@ -2,7 +2,7 @@
   "title": "killercoda test",
   "backend": {
     "imageid": "ubuntu"
-  }
+  },
   "steps": [
     {
       "title": "testtt",
