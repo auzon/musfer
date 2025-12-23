@@ -3,7 +3,7 @@
   "description": "Fullstack microservices project on Kubernetes",
   "items": [
     {
-      "id": "01-deploy-services",
+      "id": "killercodascenariotest",
       "title": "Deploy Microservices",
       "description": "Deploy backend and frontend services"
     }
