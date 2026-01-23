@@ -1,0 +1,85 @@
+name: musfer
+services:
+  auth-service:
+    build:
+      context: ../auth-service
+      target: development
+    env_file: ../auth-service/.env
+    ports:
+      - "8082:8080"
+      - "5052:5052" # debug
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5052"
+    develop:
+      watch:
+        - action: sync
+          path: ../auth-service/target/classes/me
+          target: /opt/app/auth-service/target/classes
+
+        - action: rebuild
+          path: ../auth-service/pom.xml
+
+        - action: rebuild
+          path: ../auth-service/Dockerfile
+
+  postgres:
+    image: postgres:alpine
+    env_file: .env
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres-init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web-frontend-vue:
+    build:
+      context: ../web-frontend-vue
+      target: development
+    develop:
+      watch:
+        - action: sync
+          path: ../web-frontend-vue
+          target: /app
+          ignore:
+            - .vscode
+            - node_modules
+            - dist
+            - .git
+            - "*.log"
+
+        - action: rebuild
+          path: ../web-frontend-vue/package.json
+
+        - action: rebuild
+          path: ../web-frontend-vue/Dockerfile
+    ports:
+      - 5173:5173
+    command: npm run dev -- --host
+
+  api-gateway:
+    build:
+      context: ../api-gateway
+      target: development
+    env_file: ../api-gateway/.env
+    ports:
+      - "8081:8080"
+      - "5051:5051" # debug
+    command: ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5051"
+    develop:
+      watch:
+        - action: sync
+          path: ../api-gateway/target/classes
+          target: /app/target/classes
+
+        - action: rebuild
+          path: ../api-gateway/pom.xml
+
+        - action: rebuild
+          path: ../api-gateway/Dockerfile

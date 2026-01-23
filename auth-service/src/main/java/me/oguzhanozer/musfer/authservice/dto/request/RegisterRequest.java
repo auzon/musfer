@@ -1,4 +1,4 @@
 package me.oguzhanozer.musfer.authservice.dto.request;
 
-public record RegisterRequest(String email, String password) {
+public record RegisterRequest(String username, String password) {
 }

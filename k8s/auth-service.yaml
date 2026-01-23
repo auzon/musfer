@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-service
+  name: auth-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: user-service
+      app: auth-service
   template:
     metadata:
       labels:
-        app: user-service
+        app: auth-service
     spec:
       containers:
-        - name: user-service
-          image: user-service:local
+        - name: auth-service
+          image: auth-service:local
           resources:
             requests:
               cpu: 250m
@@ -31,41 +31,47 @@ spec:
           - name: DB_HOST
             valueFrom:
               secretKeyRef:
-                name: user-service-secrets
+                name: auth-service-secrets
                 key: DB_HOST
 
           - name: DB_PORT
             valueFrom:
               secretKeyRef:
-                name: user-service-secrets
+                name: auth-service-secrets
                 key: DB_PORT
 
           - name: DB_NAME
             valueFrom:
               secretKeyRef:
-                name: user-service-secrets
+                name: auth-service-secrets
                 key: DB_NAME
 
           - name: DB_USER
             valueFrom:
               secretKeyRef:
-                name: user-service-secrets
+                name: auth-service-secrets
                 key: DB_USER
 
           - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: user-service-secrets
+                name: auth-service-secrets
                 key: DB_PASSWORD
+
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: auth-service-secrets
+                key: JWT_SECRET
       automountServiceAccountToken: false
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: user-service
+  name: auth-service
 spec:
   selector:
-    app: user-service
+    app: auth-service
   ports:
     - port: 80
       targetPort: 8080

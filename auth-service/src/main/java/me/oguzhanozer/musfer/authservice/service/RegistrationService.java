@@ -17,16 +17,16 @@ public class RegistrationService {
     private final PasswordEncoder passwordEncoder;
 
     public AuthUserResponse register(RegisterRequest registerRequest) {
-        if (authUserRepository.existsByEmail(registerRequest.email())) {
-            throw new RuntimeException("Email is already in use");
+        if (authUserRepository.existsByUsername(registerRequest.username())) {
+            throw new RuntimeException("Username is already in use");
         }
 
         AuthUser newUser = new AuthUser();
-        newUser.setEmail(registerRequest.email());
+        newUser.setUsername(registerRequest.username());
         newUser.setPassword(passwordEncoder.encode(registerRequest.password()));
 
         AuthUser savedUser = authUserRepository.save(newUser);
-        return new AuthUserResponse(savedUser.getId(), savedUser.getEmail());
+        return new AuthUserResponse(savedUser.getId(), savedUser.getUsername());
     }
 
 }

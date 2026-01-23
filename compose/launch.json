@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "attach api-gateway",
+            "type": "java",
+            "request": "attach",
+            "port": 5051,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}/api-gateway",
+            "remoteRoot": "/app"
+        },
+        {
+            "name": "attach auth-service",
+            "type": "java",
+            "request": "attach",
+            "port": 5005,
+            "address": "localhost",
+            "localRoot": "${workspaceFolder}/auth-service",
+            "remoteRoot": "/app"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "attach all services",
+            "configurations": [
+                "attach api-gateway",
+                "attach auth-service"
+            ]
+        }
+    ]
+}

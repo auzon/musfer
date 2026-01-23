@@ -19,6 +19,25 @@ public class RefreshTokenService {
     private final JwtService jwtService;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    public RefreshToken save(String encodedToken) {
+        Claims claims;
+        try {
+            claims = jwtService.extractAllClaims(encodedToken);
+        } catch (Exception e) {
+            throw new RuntimeException("Invalid refresh token");
+        }
+        Long userId = Long.valueOf(claims.getSubject());
+
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.setToken(encodedToken);
+        AuthUser authUser = authUserRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
+        refreshToken.setUser(authUser);
+        refreshTokenRepository.save(refreshToken);
+        return refreshToken;
+
+    }
+
     public TokenResponse refresh(RefreshTokenRequest refreshTokenRequest) {
         Claims claims;
         try {
