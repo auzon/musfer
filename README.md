@@ -71,7 +71,7 @@ This project is actively developed and not intended for production use at this t
 
 ---
 
-## 📁 Repository Changes
+## Repository Changes
 This project started as a monorepo, later split into independent repositories
 under a GitHub Organization to simulate real-world microservice ownership.
 For better visibility and easier evaluation, it is now moved again
